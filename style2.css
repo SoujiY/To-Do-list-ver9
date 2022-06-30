@@ -28,14 +28,19 @@ background-size: cover;
 	width: 100%;;
 } */
 
-.card {
-	margin-top: 30px;
-	margin-bottom: 15px;
-	display: flex;
-	/* flex-wrap: wrap;
-	text-align: justify;
-	min-height: 300px;
-	max-width: 100%; */
+.cards {
+	padding: 0px , 20px;
+    border: 1px solid black;
+    margin: 30px;
+	
+	
+}
+
+.taskButtons {
+background-color: grey;
+margin : 0px 5px;
+float : right;
+
 }
 
 
@@ -44,6 +49,8 @@ background-size: cover;
 
 	text-align: right;
 }
+
+
 
 
 /*.taskcard {
