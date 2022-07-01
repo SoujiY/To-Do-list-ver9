@@ -1,6 +1,6 @@
 //getting DOM elements
 let form = document.getElementById('inputForm');
-let taskName = document.getElementById("taskName");
+let tName = document.getElementById("taskName");
 let assignedTo = document.getElementById("assignedTo");
 let dueDate = document.getElementById("dueDate");
 let statusButton = document.getElementById("statusButton");
@@ -9,80 +9,119 @@ let description = document.getElementById("description");
 
 let submitButton = document.getElementById('submitButton');
 
+//Displaying Date
 
 let today = new Date();
-console.log(today)
 let month = today.getMonth()+1;
 if (month < 10) {
   month = '0'+month
 }
-const newdate = today.getFullYear() +'-'+ month +'-'+today.getDate();
-let formDate = new Date(dueDate.value);
-console.log(newdate)
+const newDate = today.getFullYear() +'-'+ month +'-'+today.getDate();
+console.log(newDate);
+console.log(dueDate.value);
 
-// let currentDate = today.getDay() + "/" + today.getMonth() + "/" + today.getFullYear();
+document.getElementById('currentDate').innerHTML = today.toDateString();
+document.getElementById('currentDate').style.color = 'dark grey';
+document.getElementById('currentDate').style.fontWeight ='bold';
 
 
-  //validating the form
-  submitButton.onmouseover= validateTaskForm;
-  function validateTaskForm() {
-    // Task Name validation
+//validating fields by firing pointOver event on the form
+let nameFlag =false;
+let assignedToFlag = false;
+let dueDateFlag =false;
+let statusFlag = false;
+let descriptionFlag =false;
+form.onpointerover = validateTaskForm;
+
+
+//validating the form
+function validateTaskForm() {
+  // Task Name field validation
   if (tName.value ==="" || tName.value.length < 8) {  
-    document.getElementById('errMsg').innerText="Provide valid Task Name";  
+    document.getElementById('errMsg').innerText="Task Name cannot be empty and not less than 8 chars";  
     document.getElementById('errMsg').style.color = "#ff0000";
      tName.focus();
-  } 
-    //assigned to validation
-    if (assignedTo.value ==="" || assignedTo.value.length < 8) {  
-      document.getElementById('errMsg1').innerText="Provide valid assigned to Name";  
-      document.getElementById('errMsg1').style.color = "#ff0000";
-       assignedTo.focus(); 
-      }
+     nameFlag = true;
+     
+  } else {
+    document.getElementById('errMsg').hidden=true;
+    assignedTo.focus();
+    nameFlag=false;
     
-      //due date validation
-      
-      if (dueDate.value < newdate) {  
-        document.getElementById('errMsg2').innerHTML="select valid due date";  
-        document.getElementById('errMsg2').style.color = "#ff0000";
-         dueDate.focus(); 
-        }
-      
-        //status validation
-        
-        if (statusButton.value == "--select--") {  
-          document.getElementById('errMsg3').innerText="select a valid status";  
-          document.getElementById('errMsg3').style.color = "#ff0000";
-           statusButton.focus();
-        } 
-
-        //description validation
-        if (description.value =="" || description.value.length < 15) {  
-          document.getElementById('errMsg4').innerText="Provide valid description";  
-          document.getElementById('errMsg4').style.color = "#ff0000";
-          description.focus();
-        } 
   }
+
+  //assigned to field validation
+  if (assignedTo.value ==="" || assignedTo.value.length < 8) {  
+    document.getElementById('errMsg1').innerText="Assigned to Name cannot be empty and not less than 8 chars";  
+    document.getElementById('errMsg1').style.color = "#ff0000";
+    assignedTo.focus(); 
+    assignedToFlag = true;
+  } else {
+    document.getElementById('errMsg1').hidden=true;
+    dueDate.focus();
+    assignedToFlag=false;
+  }
+    
+  //due date validation
+      
+  if (dueDate.value < newDate) {  
+    document.getElementById('errMsg2').innerText="Select date greater than or equal to today's date";  
+    document.getElementById('errMsg2').style.color = "#ff0000";
+    dueDate.focus(); 
+    dueDateFlag = true;
+  } else {
+    document.getElementById('errMsg2').hidden=true;
+    statusButton.focus();
+    dueDateFlag=false;
+  }
+      
+  //status validation
+        
+  if (statusButton.value == "--select--") {  
+    document.getElementById('errMsg3').innerText="Select a valid status";  
+    document.getElementById('errMsg3').style.color = "#ff0000";
+    statusButton.focus();
+    statusFlag = true;
+  } else {
+    document.getElementById('errMsg3').hidden=true;
+    description.focus();
+    statusFlag=false;
+  }
+
+  //description validation
+  if (description.value =="" || description.value.length < 15) {  
+    document.getElementById('errMsg4').innerText="Description should not be empty and greater than 15 chars";  
+    document.getElementById('errMsg4').style.color = "#ff0000";
+    description.focus();
+    descriptionFlag = true;
+  } else {
+    document.getElementById('errMsg4').hidden=true;
+    descriptionFlag=false;
+  }  
+   
+  //console.log(nameFlag,assignedToFlag,dueDateFlag,descriptionFlag,statusFlag);
+  
+  //console.log(!(nameFlag),!(descriptionFlag));
+
+  if (!(nameFlag) && !(descriptionFlag) && !(assignedToFlag) && !(dueDateFlag) && !(statusFlag)){
+    return true;
+  }
+
+       
+}
 
   //reset button functionality
 
   function reset() {
-  taskName.value= "";
+  tName.value= "";
   assignedTo.value = "";
   dueDate.value = "";
   description.value ="";
   statusButton.value = "--select--";
   }
   
-  //Displaying Date
-  document.getElementById('currentDate').innerHTML = today.toDateString();
-  document.getElementById('currentDate').style.color = 'dark grey';
-  document.getElementById('currentDate').style.fontWeight ='bold';
-
   
 //Task 6 creating class and object
-
-
-let myTasks = [];
 
 const TaskManager = class {
   constructor(id ,taskName,assignedTo,dueDate,statusButton,description) {
@@ -97,59 +136,60 @@ const TaskManager = class {
 };
 
 //Adding task to the array and displaying tasks to the browser on click
+
+let myTasks = [];
 let id = 0;
-// let saveButton = document.getElementById('submit');
 let i=0;
+
+//const isValidity = validateTaskForm();
+//console.log('testing',isValidity);
+
 submitButton.addEventListener('click', () => {
-    if (taskName.value === ""|| assignedTo.value === "" || statusButton.value == "--select--" || description.value === "" || dueDate.value === "") {
-  alert('provide valid input')
-} else {
-    id++;
-     myTasks.push(new TaskManager(id,taskName.value,assignedTo.value,dueDate.value,statusButton.value,description.value ));
+   
+  if(!(validateTaskForm())) {
+
+     alert('provide valid input');
      
-}  
+  }  else {
+    
+    id++;
+    myTasks.push(new TaskManager(id,taskName.value,assignedTo.value,dueDate.value,statusButton.value,description.value ));
+  
+  for(; i< myTasks.length;i++)
+  {
+    //creating card elements
+    let card = document.createElement("div")
+    let cardHeading = document.createElement("h3")
+    let cardId= document.createElement("h5")
+    let cardContent=document.createElement("p")
+    let createdDate = document.createElement("span")
+    let editButton = document.createElement('button')
+    let deleteButton = document.createElement('button')
+    //assigned class names for styling in css
+    card.className = 'cards';
+    editButton.className = "taskButtons";
+    deleteButton.className = "taskButtons";
+    createdDate.className = "cardDate"
+    //Task card content
+    cardHeading.innerHTML= "Task Details"
+    cardId.innerHTML ="Task Id: "+id;
+    cardContent.innerHTML =`Task Name: ${myTasks[i].taskName} <br/> Assigned To: ${myTasks[i].assignedTo} <br/>Due Date: ${myTasks[i].dueDate} <br/> Description: ${myTasks[i].description} <br/> Status: ${statusButton.value}`;
+    createdDate.innerHTML = `Created on: ${today.toDateString()}`;
+    editButton.innerHTML = `Edit`;
+    deleteButton.innerHTML =`Delete`;
+    //card styles
+    cardHeading.style.background = "yellow";
+    cardContent.style.marginLeft = '10px';
+    cardId.style.marginLeft = '10px';
+    //appending to parent element
+    document.body.append(card);
+    card.append(cardHeading,cardId,cardContent);
+    cardContent.append(deleteButton,editButton)
+    cardHeading.appendChild(createdDate);
 
-for(; i< myTasks.length;i++)
-{
-  console.log(myTasks);
-let card = document.createElement("div")
-let cardHeading = document.createElement("h3")
-let cardId= document.createElement("h5")
-let cardContent=document.createElement("p")
-let createdDate = document.createElement("span")
-let editButton = document.createElement('button')
-let deleteButton = document.createElement('button')
-document.body.append(card);
-card.className = 'cards';
-editButton.className = "taskButtons";
-deleteButton.className = "taskButtons";
-
-cardHeading.style.background = "yellow";
-cardHeading.innerHTML= "Task Details"
-cardId.innerHTML ="Task Id: "+id;
-cardContent.innerHTML =`Task Name: ${myTasks[i].taskName} <br/> Assigned To: ${myTasks[i].assignedTo} <br/>Due Date: ${myTasks[i].dueDate} <br/> Description: ${myTasks[i].description} <br/> Status: ${statusButton.value}`;
-createdDate.innerHTML = today.toDateString();
-editButton.innerHTML = "Edit";
-deleteButton.innerHTML ="Delete";
-
-createdDate.style.color = 'grey';
-createdDate.style.fontSize = '12px';
-createdDate.style.float = 'right';
-createdDate.style.paddingTop = '5px';
-cardContent.style.marginLeft = '10px';
-cardId.style.marginLeft = '10px';
-
-card.append(cardHeading,cardId,cardContent);
-cardContent.append(deleteButton,editButton)
-cardHeading.appendChild(createdDate);
-reset();
-// taskName.value= "";
-// assignedTo.value = "";
-// dueDate.value = "";
-// description.value ="";
-// statusButton.value = "--select--";
- }
- 
+    reset();
+  }
+  }
 });
 
 

@@ -36,10 +36,18 @@ background-size: cover;
 	
 }
 
+.cardDate {
+	color: grey;
+	font-size: 12px;
+	float: right;
+	padding: 5px;
+}
+
 .taskButtons {
-background-color: grey;
+background-color: wheat;
 margin : 0px 5px;
 float : right;
+
 
 }
 
