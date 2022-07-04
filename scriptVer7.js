@@ -159,11 +159,10 @@ const TaskManager = class {
 
 let myTasks = [];
 let id = 0;
+let i=0;
 
+//Adding tasks to the local storage and displaying tasks simultaneously on click of submit button
 
-//const isValidity = validateTaskForm();
-//console.log('testing',isValidity);
-//let itemFromStorage;
 submitButton.addEventListener('click', () => {
   
   if(!(validateTaskForm())) {
@@ -179,21 +178,10 @@ submitButton.addEventListener('click', () => {
     id++;
     myTasks.push(new TaskManager(id, taskName.value, assignedTo.value, dueDate.value, statusButton.value, description.value ));
     console.log(myTasks);
-       
-    addTask(myTasks);
-    reset();
-
-  }
-  });  
-//displaying Tasks function
-  function displayTasks() {
-    if(localStorage.getItem('tasks')){
-    let itemFromStorage = JSON.parse(localStorage.getItem('tasks')) || [];
-      console.log(itemFromStorage);
-      
-  for(let i=0;i<itemFromStorage.length;i++)
-  {
     
+  
+  for(; i< myTasks.length;i++)
+  {
     //creating card elements
     let card = document.createElement("div")
     let cardHeading = document.createElement("h3")
@@ -209,8 +197,8 @@ submitButton.addEventListener('click', () => {
     createdDate.className = "cardDate"
     //Task card content
     cardHeading.innerHTML= "Task Details"
-    cardId.innerHTML ="Task Id: "+itemFromStorage[i].id;
-    cardContent.innerHTML =`Task Name: ${itemFromStorage[i].taskName} <br/> Assigned To: ${itemFromStorage[i].assignedTo} <br/>Due Date: ${itemFromStorage[i].dueDate} <br/> Description: ${itemFromStorage[i].description} <br/> Status: ${statusButton.value}`;
+    cardId.innerHTML ="Task Id: "+myTasks[i].id;
+    cardContent.innerHTML =`Task Name: ${myTasks[i].taskName} <br/> Assigned To: ${myTasks[i].assignedTo} <br/>Due Date: ${myTasks[i].dueDate} <br/> Description: ${myTasks[i].description} <br/> Status: ${statusButton.value}`;
     createdDate.innerHTML = `Created on: ${today.toDateString()}`;
     editButton.innerHTML = `Edit`;
     deleteButton.innerHTML =`Delete`;
@@ -225,12 +213,11 @@ submitButton.addEventListener('click', () => {
     cardContent.append(deleteButton,editButton)
     cardHeading.appendChild(createdDate);
     
-    
+    addTask(myTasks[i]);
+    reset();
   }
-}
-}
-  
-  
+  }
+});
 
 //function for deleting the task on click of the delete button
 //deleteButton.addEventListener('click',deleteTask(myTasks,id));
