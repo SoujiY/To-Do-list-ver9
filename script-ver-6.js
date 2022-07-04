@@ -120,16 +120,17 @@ function validateTaskForm() {
 }
 
 //function to add tasks to the loacal storage
-// function addTask() {
+ function addTask(task) {
   
-  
-//   localStorage.setItem("tasks", JSON.stringify(myTasks));
-// }
+  let arr = JSON.parse(localStorage.getItem("tasks")) || [];
+  arr.push(task);
+  localStorage.setItem("tasks",JSON.stringify(arr));
+  console.log(arr);
+}
 
 
 
-
-  //reset button functionality
+//reset button functionality
 
   function reset() {
   tName.value= "";
@@ -172,9 +173,10 @@ submitButton.addEventListener('click', () => {
   }  else {
     
     id++;
-    myTasks.push(new TaskManager(id,taskName.value,assignedTo.value,dueDate.value,statusButton.value,description.value ));
-    //myTasks = JSON.parse(localStorage.getItem("tasks"));
-    //addTask();
+    myTasks.push(new TaskManager(id, taskName.value, assignedTo.value, dueDate.value, statusButton.value, description.value ));
+    console.log(myTasks);
+    
+    
 
   
   for(; i< myTasks.length;i++)
@@ -208,7 +210,8 @@ submitButton.addEventListener('click', () => {
     card.append(cardHeading,cardId,cardContent);
     cardContent.append(deleteButton,editButton)
     cardHeading.appendChild(createdDate);
-
+    
+    addTask(myTasks[i]);
     reset();
   }
   }
