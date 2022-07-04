@@ -13,10 +13,11 @@ let submitButton = document.getElementById('submitButton');
 
 let today = new Date();
 let month = today.getMonth()+1;
-if (month < 10) {
-  month = '0'+month
+
+function addLeadingZeros(num, totalLength) {
+  return String(num).padStart(totalLength, '0');
 }
-const newDate = today.getFullYear() +'-'+ month +'-'+today.getDate();
+const newDate = today.getFullYear() +'-'+ addLeadingZeros (month, 2) +'-'+addLeadingZeros(today.getDate(), 2);
 console.log(newDate);
 console.log(dueDate.value);
 
@@ -25,24 +26,28 @@ document.getElementById('currentDate').style.color = 'dark grey';
 document.getElementById('currentDate').style.fontWeight ='bold';
 
 
-//flag variables used to check validity true or false for each input element of the modal
+//validating fields by firing pointOver event on the form
 let nameFlag =false;
 let assignedToFlag = false;
 let dueDateFlag =false;
 let statusFlag = false;
 let descriptionFlag =false;
+form.onpointerover = validateTaskForm;
 
 
-//validating the form function declaration
-
+//validating the form
 function validateTaskForm() {
+  console.log('did i come here --' +tName.value.length)
+
   // Task Name field validation
-  if (tName.value ==="" || tName.value.length < 8) {  
+  if ( tName.value ==="" || tName.value.length < 8) {  
+    document.getElementById('errMsg').hidden=false;
     document.getElementById('errMsg').innerText="Task Name cannot be empty and not less than 8 chars";  
     document.getElementById('errMsg').style.color = "#ff0000";
      tName.focus();
      nameFlag = true;
-     
+     console.log('did i come here nameee')
+
   } else {
     document.getElementById('errMsg').hidden=true;
     assignedTo.focus();
@@ -52,6 +57,7 @@ function validateTaskForm() {
 
   //assigned to field validation
   if (assignedTo.value ==="" || assignedTo.value.length < 8) {  
+    document.getElementById('errMsg1').hidden=false;
     document.getElementById('errMsg1').innerText="Assigned to Name cannot be empty and not less than 8 chars";  
     document.getElementById('errMsg1').style.color = "#ff0000";
     assignedTo.focus(); 
@@ -65,6 +71,7 @@ function validateTaskForm() {
   //due date validation
       
   if (dueDate.value < newDate) {  
+    document.getElementById('errMsg2').hidden=false;
     document.getElementById('errMsg2').innerText="Select date greater than or equal to today's date";  
     document.getElementById('errMsg2').style.color = "#ff0000";
     dueDate.focus(); 
@@ -78,6 +85,7 @@ function validateTaskForm() {
   //status validation
         
   if (statusButton.value == "--select--") {  
+    document.getElementById('errMsg3').hidden=false;
     document.getElementById('errMsg3').innerText="Select a valid status";  
     document.getElementById('errMsg3').style.color = "#ff0000";
     statusButton.focus();
@@ -90,6 +98,7 @@ function validateTaskForm() {
 
   //description validation
   if (description.value =="" || description.value.length < 15) {  
+    document.getElementById('errMsg4').hidden=false;
     document.getElementById('errMsg4').innerText="Description should not be empty and greater than 15 chars";  
     document.getElementById('errMsg4').style.color = "#ff0000";
     description.focus();
@@ -99,12 +108,26 @@ function validateTaskForm() {
     descriptionFlag=false;
   }  
    
+  //console.log(nameFlag,assignedToFlag,dueDateFlag,descriptionFlag,statusFlag);
+  
+  //console.log(!(nameFlag),!(descriptionFlag));
+
   if (!(nameFlag) && !(descriptionFlag) && !(assignedToFlag) && !(dueDateFlag) && !(statusFlag)){
     return true;
   }
 
        
 }
+
+//function to add tasks to the loacal storage
+// function addTask() {
+  
+  
+//   localStorage.setItem("tasks", JSON.stringify(myTasks));
+// }
+
+
+
 
   //reset button functionality
 
@@ -131,15 +154,6 @@ const TaskManager = class {
  
 };
 
-//function to add tasks to the loacal storage
-function addTask() {
-  myTasks = JSON.parse(localStorage.getItem("tasks"));
-  myTasks.push(new TaskManager(id,taskName.value,assignedTo.value,dueDate.value,statusButton.value,description.value ));
-  localStorage.setItem("tasks", JSON.stringify(myTasks));
-}
-
-
-
 //Adding task to the array and displaying tasks to the browser on click
 
 let myTasks = [];
@@ -150,18 +164,18 @@ let i=0;
 //console.log('testing',isValidity);
 
 submitButton.addEventListener('click', () => {
-
-  validateTaskForm();
-
-   //if validation is false generate alert
+   
   if(!(validateTaskForm())) {
 
      alert('provide valid input');
      
   }  else {
-    //if validation true push elements into the array
+    
     id++;
-    addTask();
+    myTasks.push(new TaskManager(id,taskName.value,assignedTo.value,dueDate.value,statusButton.value,description.value ));
+    //myTasks = JSON.parse(localStorage.getItem("tasks"));
+    //addTask();
+
   
   for(; i< myTasks.length;i++)
   {
