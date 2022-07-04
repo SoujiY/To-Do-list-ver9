@@ -179,7 +179,6 @@ submitButton.addEventListener('click', () => {
     id++;
     myTasks.push(new TaskManager(id, taskName.value, assignedTo.value, dueDate.value, statusButton.value, description.value ));
     console.log(myTasks);
-       
     addTask(myTasks);
     reset();
 
@@ -210,7 +209,7 @@ submitButton.addEventListener('click', () => {
     //Task card content
     cardHeading.innerHTML= "Task Details"
     cardId.innerHTML ="Task Id: "+itemFromStorage[i].id;
-    cardContent.innerHTML =`Task Name: ${itemFromStorage[i].taskName} <br/> Assigned To: ${itemFromStorage[i].assignedTo} <br/>Due Date: ${itemFromStorage[i].dueDate} <br/> Description: ${itemFromStorage[i].description} <br/> Status: ${statusButton.value}`;
+    cardContent.innerHTML =`Task Name: ${itemFromStorage[i].taskName} <br/> Assigned To: ${itemFromStorage[i].assignedTo} <br/>Due Date: ${itemFromStorage[i].dueDate} <br/> Description: ${itemFromStorage[i].description} <br/> Status: ${itemFromStorage[i].statusButton}`;
     createdDate.innerHTML = `Created on: ${today.toDateString()}`;
     editButton.innerHTML = `Edit`;
     deleteButton.innerHTML =`Delete`;
