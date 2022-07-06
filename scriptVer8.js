@@ -238,13 +238,18 @@ submitButton.addEventListener('click', () => {
     cardContent.append(deleteButton,doneButton)
     cardHeading.appendChild(createdDate);
     
-    //console.log(doneBtn, task.id);
-    //calling the update task function
+   
+    //calling the update task function on done button click
     document.getElementById(`${doneBtn}`).addEventListener('click',()=> {
         updateTask(task.id)
         
     });
+    //to disappear the done button once the status is done
+    if((task.statusButton)==="Done") {
+      document.getElementById(`${doneBtn}`).style.display = 'none';
+    }
 
+    // calling the delete task function on delete button click
     document.getElementById(`${delBtn}`).addEventListener('click',()=>{
         deleteTask(task.id)
        
@@ -286,7 +291,6 @@ function displayTasks() {
 
 
 //function for deleting the task on click of the delete button
-//deleteButton.addEventListener('click',deleteTask(myTasks,id));
 
 function deleteTask(id) {
    let arr = JSON.parse(localStorage.getItem("tasks")) || [];
