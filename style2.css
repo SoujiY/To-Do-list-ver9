@@ -14,6 +14,7 @@ background-size: cover;
 
 .btn {
 	flex-direction: row;
+
 }
 
 
@@ -30,30 +31,44 @@ background-size: cover;
 
 .cards {
 	padding: 0px , 20px;
-    border: 1px solid black;
+    border: 1px solid grey;
     margin: 30px;
-	
+	border-radius: 3px;
 	
 }
 
 .cardDate {
-	color: grey;
+	color: white;
 	font-size: 12px;
 	float: right;
 	padding: 5px;
+	font-weight: bold;
+	animation: 1s linear infinite blink_effect;
 }
+
+
+@keyframes blink_effect {
+	0% {
+	  visibility: hidden;
+	}
+	50% {
+	  visibility: hidden;
+	}
+	100% {
+	  visibility: visible;
+	}
+  }
 
 .taskButtons {
-background-color: wheat;
 margin : 0px 5px;
 float : right;
+border:0px;
+border-radius: 3px;
 
 
 }
 
-
-
-.card-footer {
+ .card-footer {
 
 	text-align: right;
 }
