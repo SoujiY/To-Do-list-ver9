@@ -1,5 +1,9 @@
+ 
+
+
 .main {
 	margin-top: 2rem;
+	
 }
 
 .header {
@@ -32,8 +36,10 @@ background-size: cover;
 .cards {
 	padding: 0px , 20px;
     border: 1px solid grey;
-    margin: 30px;
+    margin: 20px;
 	border-radius: 3px;
+	height: 240px;
+	
 	
 }
 
@@ -60,11 +66,11 @@ background-size: cover;
   }
 
 .taskButtons {
-margin : 0px 5px;
+margin: 0px 5px; 
 float : right;
-border:0px;
-border-radius: 3px;
-padding: 0px;
+border:0px; 
+border-radius: 3px; 
+padding: 0px; 
 
 }
 
@@ -81,17 +87,13 @@ padding: 0px;
 }
 */
 
-/* @media only screen and (min-width: 820px) and (max-width: 830px){
-	.card {
-	 display: flex;
-	flex-grow: 2;
-    flex-shrink: 1;  
-    width: 50%;
-	
-	
-	  } 
+  /* @media only screen and (min-width: 370px) and (max-width: 920px){
+	.cards {
+		height:250px;
+		float: right;
+	}
 
 
-} */
+}   */
 
 

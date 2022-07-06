@@ -199,26 +199,31 @@ submitButton.addEventListener('click', () => {
     let createdDate = document.createElement("span")
     let doneButton = document.createElement('button')
     let deleteButton = document.createElement('button')
+    let editButton = document.createElement('button')
+    
     //assigned class names for styling in css
     card.className = 'cards';
     doneButton.className = "taskButtons";
     deleteButton.className = "taskButtons";
+    editButton.className = "taskButtons";
     createdDate.className = "cardDate"
     //create unique id's for the done buttons on each card
     let doneBtn = `${task.id}_doneBtn`
     let delBtn = `${task.id}_delBtn`
+    let edtBtn = `${task.id}_edtBtn`
     // assign the id's to the button
     doneButton.setAttribute('id', doneBtn);
     deleteButton.setAttribute('id', delBtn);
+    editButton.setAttribute('id', edtBtn);
     
     
     //Task card content
     cardHeading.innerHTML= "Task Details"
     cardId.innerHTML ="Task Id: "+ task.id;
-    cardContent.innerHTML =`Task Name: ${task.taskName} <br/> Assigned To: ${task.assignedTo} <br/>Due Date: ${task.dueDate} <br/> Description: ${task.description} <br/> Status: <span style="color:red;">${task.statusButton}</span>`;
+    cardContent.innerHTML =`Task Name: ${task.taskName} <br/> Assigned To: ${task.assignedTo} <br/>Due Date: ${task.dueDate} <br/> Description: ${task.description} <br/> Status: <span style="color:red;">${task.statusButton}</span><br/>`;
     createdDate.innerHTML = `Created on: ${today.toDateString()}`;
-    doneButton.innerHTML = `Done`;
-    deleteButton.innerHTML =`Delete`;
+    // doneButton.innerHTML = `Done`;
+    // deleteButton.innerHTML =`Delete`;
     
     
     //card styles
@@ -229,15 +234,22 @@ submitButton.addEventListener('click', () => {
     cardId.style.marginLeft = '10px';
     doneButton.innerHTML = "<button type= 'button' class= 'btn btn-success'>Done</button>";
     deleteButton.innerHTML = "<button type= 'button' class= 'btn btn-danger'>Delete</button>";
+    editButton.innerHTML = "<button type= 'button' class= 'btn btn-primary'>Edit</button>";
     cardHeading.style.paddingLeft = "10px"  //padding added
     
     
     //appending to parent element
     document.body.append(card);
     card.append(cardHeading,cardId,cardContent);
-    cardContent.append(deleteButton,doneButton)
+    cardContent.append(deleteButton,doneButton,editButton)
     cardHeading.appendChild(createdDate);
-    
+
+
+    //calling the edit task function on edit button click
+    document.getElementById(`${edtBtn}`).addEventListener('click',()=>{
+      editTask(task.id)
+     
+  });    
    
     //calling the update task function on done button click
     document.getElementById(`${doneBtn}`).addEventListener('click',()=> {
@@ -264,14 +276,30 @@ function updateTask(id){
     
     let itemFromStorage = JSON.parse(localStorage.getItem('tasks')) || [];
     let index = itemFromStorage.findIndex((task)=> task.id===id);
-    
+    if(itemFromStorage[index].statusButton ==="Review"){
     itemFromStorage[index].statusButton = "Done";
     localStorage.setItem("tasks",JSON.stringify(itemFromStorage));
-
+    }
     location.reload();
 
     
 }
+
+//function to edit the status of the tasks
+function editTask(id) {
+
+  let arr1 = JSON.parse(localStorage.getItem('tasks')) || [];
+  let index = arr1.findIndex((task)=> task.id===id);
+  if(arr1[index].statusButton ==="In progress") {
+    arr1[index].statusButton = "Review";
+  localStorage.setItem("tasks",JSON.stringify(arr1));
+  } else if(arr1[index].statusButton ==="To-Do") {
+    arr1[index].statusButton = "In progress";
+  localStorage.setItem("tasks",JSON.stringify(arr1));
+  } 
+  location.reload();
+}
+
 
 //function to display tasks on reload of the page
 
