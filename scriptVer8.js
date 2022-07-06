@@ -221,7 +221,7 @@ submitButton.addEventListener('click', () => {
     cardHeading.innerHTML= "Task Details"
     cardId.innerHTML ="Task Id: "+ task.id;
     cardContent.innerHTML =`Task Name: ${task.taskName} <br/> Assigned To: ${task.assignedTo} <br/>Due Date: ${task.dueDate} <br/> Description: ${task.description} <br/> Status: <span style="color:red;">${task.statusButton}</span><br/>`;
-    createdDate.innerHTML = `Created on: ${today.toDateString()}`;
+    createdDate.innerHTML = `Created on <i class="fa fa-calendar"></i> : ${today.toDateString()}`;
     // doneButton.innerHTML = `Done`;
     // deleteButton.innerHTML =`Delete`;
     
