@@ -21,7 +21,7 @@ const newDate = today.getFullYear() +'-'+ addLeadingZeros (month, 2) +'-'+addLea
 console.log(newDate);
 console.log(dueDate.value);
 
-document.getElementById('currentDate').innerHTML = today.toDateString();
+document.getElementById('currentDate').innerHTML = `Date:${today.toDateString()}`;
 document.getElementById('currentDate').style.color = 'dark grey';
 document.getElementById('currentDate').style.fontWeight ='bold';
 
@@ -196,6 +196,7 @@ submitButton.addEventListener('click', () => {
     let cardHeading = document.createElement("h3")
     let cardId= document.createElement("h5")
     let cardContent=document.createElement("p")
+    let statusContent=document.createElement("span")
     let createdDate = document.createElement("span")
     let doneButton = document.createElement('button')
     let deleteButton = document.createElement('button')
@@ -215,46 +216,57 @@ submitButton.addEventListener('click', () => {
     doneButton.setAttribute('id', doneBtn);
     deleteButton.setAttribute('id', delBtn);
     editButton.setAttribute('id', edtBtn);
-    
-    
+        
     //Task card content
     cardHeading.innerHTML= "Task Details"
     cardId.innerHTML ="Task Id: "+ task.id;
-    cardContent.innerHTML =`Task Name: ${task.taskName} <br/> Assigned To: ${task.assignedTo} <br/>Due Date: ${task.dueDate} <br/> Description: ${task.description} <br/> Status: <span style="color:red;">${task.statusButton}</span><br/>`;
+    cardContent.innerHTML =`Task Name: ${task.taskName} <br/> Assigned To: ${task.assignedTo} <br/>Due Date: ${task.dueDate} <br/> Description: ${task.description}<br/>`;
+    statusContent.innerHTML = `<b>Status: ${task.statusButton}</b><br/>`;
     createdDate.innerHTML = `Created on <i class="fa fa-calendar"></i> : ${today.toDateString()}`;
-    // doneButton.innerHTML = `Done`;
-    // deleteButton.innerHTML =`Delete`;
-    
     
     //card styles
-    // cardHeading.style.background = "#009ACD";
-    cardHeading.style.background = "linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,83,121,1) 0%, rgba(0,212,255,1) 100%)"; // gradient added
-    cardHeading.style.color = "white";
-    cardContent.style.marginLeft = '10px';
-    cardId.style.marginLeft = '10px';
-    doneButton.innerHTML = "<button type= 'button' class= 'btn btn-success'>Done</button>";
-    deleteButton.innerHTML = "<button type= 'button' class= 'btn btn-danger'>Delete</button>";
-    editButton.innerHTML = "<button type= 'button' class= 'btn btn-primary'>Edit</button>";
-    cardHeading.style.paddingLeft = "10px"  //padding added
-    
+      //function to display different background colors based on the status  
+      function statusColor() {
+        if(task.statusButton ==="To-Do"){
+          statusContent.style.color ="crimson";
+        }else if(task.statusButton === "In progress"){
+          statusContent.style.color ="orange";
+        } else if(task.statusButton === "Review"){
+          statusContent.style.color ="gold";
+        } else {
+           statusContent.style.color ="green";
+         }
+      }
+
+      // cardHeading.style.background = "#009ACD";
+      cardHeading.style.background = "linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,83,121,1) 0%, rgba(0,212,255,1) 100%)"; // gradient added
+      cardHeading.style.color = "white";
+      cardContent.style.marginLeft = '10px';
+      cardId.style.marginLeft = '10px';
+      doneButton.innerHTML = "<button type= 'button' class= 'btn btn-success'>Done</button>";
+      deleteButton.innerHTML = "<button type= 'button' class= 'btn btn-danger'>Delete</button>";
+      editButton.innerHTML = "<button type= 'button' class= 'btn btn-primary'>Edit</button>";
+      cardHeading.style.paddingLeft = "10px"  //padding added
+
+      //display the status content color when creating the card.
+      statusColor();
     
     //appending to parent element
     document.body.append(card);
     card.append(cardHeading,cardId,cardContent);
-    cardContent.append(deleteButton,doneButton,editButton)
+    cardContent.append(deleteButton,doneButton,editButton,statusContent)
     cardHeading.appendChild(createdDate);
-
 
     //calling the edit task function on edit button click
     document.getElementById(`${edtBtn}`).addEventListener('click',()=>{
-      editTask(task.id)
-     
-  });    
+      editTask(task.id);
+      statusColor();     
+    });    
    
     //calling the update task function on done button click
     document.getElementById(`${doneBtn}`).addEventListener('click',()=> {
         updateTask(task.id)
-        
+        statusColor();
     });
     //to disappear the done button once the status is done
     if((task.statusButton)==="Done") {
@@ -292,7 +304,7 @@ function editTask(id) {
   let index = arr1.findIndex((task)=> task.id===id);
   if(arr1[index].statusButton ==="In progress") {
     arr1[index].statusButton = "Review";
-  localStorage.setItem("tasks",JSON.stringify(arr1));
+    localStorage.setItem("tasks",JSON.stringify(arr1));
   } else if(arr1[index].statusButton ==="To-Do") {
     arr1[index].statusButton = "In progress";
   localStorage.setItem("tasks",JSON.stringify(arr1));

@@ -7,8 +7,9 @@
 }
 
 .header {
-background-size: cover;
+background-size:contain;
 	width: 100%;
+	height:250px;
 }
 
 
@@ -38,18 +39,18 @@ background-size: cover;
     border: 1px solid grey;
     margin: 20px;
 	border-radius: 3px;
-	height: 240px;
+	height: 220px;
 	
 	
 }
 
 .cardDate {
-	color: white;
+	color:white;
 	font-size: 12px;
 	float: right;
 	padding: 5px;
 	font-weight: bold;
-	animation: 1s linear infinite blink_effect;
+	animation: 2s linear infinite blink_effect;
 }
 
 
@@ -57,7 +58,7 @@ background-size: cover;
 	0% {
 	  visibility: hidden;
 	}
-	50% {
+	25% {
 	  visibility: hidden;
 	}
 	100% {
