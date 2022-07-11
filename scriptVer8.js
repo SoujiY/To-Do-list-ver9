@@ -228,11 +228,11 @@ submitButton.addEventListener('click', () => {
       //function to display different background colors based on the status  
       function statusColor() {
         if(task.statusButton ==="To-Do"){
-          statusContent.style.color ="crimson";
+          statusContent.style.color ="red";
         }else if(task.statusButton === "In progress"){
           statusContent.style.color ="orange";
         } else if(task.statusButton === "Review"){
-          statusContent.style.color ="gold";
+          statusContent.style.color ="yellow";
         } else {
            statusContent.style.color ="green";
          }
