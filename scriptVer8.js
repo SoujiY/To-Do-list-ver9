@@ -230,9 +230,9 @@ submitButton.addEventListener('click', () => {
         if(task.statusButton ==="To-Do"){
           statusContent.style.color ="red";
         }else if(task.statusButton === "In progress"){
-          statusContent.style.color ="orange";
+          statusContent.style.color ="darkorange";
         } else if(task.statusButton === "Review"){
-          statusContent.style.color ="yellow";
+          statusContent.style.color ="#FCD703";
         } else {
            statusContent.style.color ="green";
          }
